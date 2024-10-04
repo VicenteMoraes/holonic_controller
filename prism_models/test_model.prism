@@ -1,0 +1,282 @@
+mdp
+
+const int goal_number=16;
+
+const double agent1_battery=0.5;
+const double agent1_previousfailurerate=0.01;
+const bool   agent1_skill_navigation=true;
+const bool   agent1_skill_cleaning=false;
+const bool   agent1_skill_extracleaning=false;
+const bool   agent1_skill_comms=true;
+const bool   agent1_skill_manipulation=true;
+
+const double agent2_battery=0.83;
+const double agent2_previousfailurerate=0.1;
+const bool   agent2_skill_navigation=true;
+const bool   agent2_skill_cleaning=false;
+const bool   agent2_skill_extracleaning=false;
+const bool   agent2_skill_comms=true;
+const bool   agent2_skill_manipulation=true;
+
+const double agent3_battery=0.66;
+const double agent3_previousfailurerate=0.001;
+const bool   agent3_skill_navigation=true;
+const bool   agent3_skill_cleaning=false;
+const bool   agent3_skill_extracleaning=false;
+const bool   agent3_skill_comms=true;
+const bool   agent3_skill_manipulation=true;
+
+const double agent4_battery=0.79;
+const double agent4_previousfailurerate=0.001;
+const bool   agent4_skill_navigation=true;
+const bool   agent4_skill_cleaning=true;
+const bool   agent4_skill_extracleaning=false;
+const bool   agent4_skill_comms=true;
+const bool   agent4_skill_manipulation=false;
+
+module agent1
+	agent1_goal: [0..goal_number];
+	agent1_extra_cleaning: bool;
+
+	[] agent1_goal=0 & (agent1_skill_navigation & agent1_skill_comms & agent1_skill_manipulation) & agent1_battery>=0.2 & agent1_previousfailurerate<=0.01 -> (agent1_goal'=1);
+	[] agent1_goal=0 & (agent1_skill_navigation & agent1_skill_cleaning) & agent1_battery>=0.5 -> (agent1_goal'=2);
+
+	[] agent1_goal=1 & (agent1_skill_comms) -> (agent1_goal'=3);
+
+	[] agent1_goal=2 & (agent1_skill_navigation & agent1_skill_cleaning) & agent1_battery>0.5 -> (agent1_goal'=6);
+	[] agent1_goal=2 & (agent1_skill_navigation & agent1_skill_extracleaning) & agent1_battery>0.8 -> (agent1_goal'=7);
+	
+	[] agent1_goal=3 -> (agent1_goal'=8);
+	
+	[] agent1_goal=4 -> (agent1_goal'=10);
+
+	[] agent1_goal=5 -> (agent1_goal'=12);
+
+	[] agent1_goal=6 -> (agent1_goal'=14);
+
+	[] agent1_goal=7 -> (agent1_goal'=14) & (agent1_extra_cleaning'=true);
+
+	[] agent1_goal=8 -> (agent1_goal'=9);
+
+	[] agent1_goal=9 -> (agent1_goal'=4);
+
+	[] agent1_goal=10 -> (agent1_goal'=11);
+
+	[] agent1_goal=11 -> (agent1_goal'=5);
+
+	[] agent1_goal=12 -> (agent1_goal'=13);
+
+	[] agent1_goal=13-> (agent1_goal'=-1);
+
+	[] agent1_goal=14 -> (agent1_goal'=15);
+
+	[] agent1_goal=15 & agent1_extra_cleaning=false -> true;
+	[] agent1_goal=15 & agent1_extra_cleaning=true -> (agent1_goal'=16);
+
+	[] agent1_goal=16 -> (agent1_goal'=-1);
+endmodule
+
+
+module agent2
+	agent2_goal: [0..goal_number];
+	agent2_extra_cleaning: bool;
+
+	[] agent2_goal=0 & (agent2_skill_navigation & agent2_skill_comms & agent2_skill_manipulation) & agent2_battery>=0.2 & agent2_previousfailurerate<=0.01 -> (agent2_goal'=1);
+	[] agent2_goal=0 & (agent2_skill_navigation & agent2_skill_cleaning) & agent2_battery>=0.5 -> (agent2_goal'=2);
+
+	[] agent2_goal=1 & (agent2_skill_comms) -> (agent2_goal'=3);
+
+	[] agent2_goal=2 & (agent2_skill_navigation & agent2_skill_cleaning) & agent2_battery>0.5 -> (agent2_goal'=6);
+	[] agent2_goal=2 & (agent2_skill_navigation & agent2_skill_extracleaning) & agent2_battery>0.8 -> (agent2_goal'=7);
+	
+	[] agent2_goal=3 -> (agent2_goal'=8);
+	
+	[] agent2_goal=4 -> (agent2_goal'=10);
+
+	[] agent2_goal=5 -> (agent2_goal'=12);
+
+	[] agent2_goal=6 -> (agent2_goal'=14);
+
+	[] agent2_goal=7 -> (agent2_goal'=14) & (agent2_extra_cleaning'=true);
+
+	[] agent2_goal=8 -> (agent2_goal'=9);
+
+	[] agent2_goal=9 -> (agent2_goal'=4);
+
+	[] agent2_goal=10 -> (agent2_goal'=11);
+
+	[] agent2_goal=11 -> (agent2_goal'=5);
+
+	[] agent2_goal=12 -> (agent2_goal'=13);
+
+	[] agent2_goal=13-> (agent2_goal'=-1);
+
+	[] agent2_goal=14 -> (agent2_goal'=15);
+
+	[] agent2_goal=15 & agent2_extra_cleaning=false -> true;
+	[] agent2_goal=15 & agent2_extra_cleaning=true -> (agent2_goal'=16);
+
+	[] agent2_goal=16 -> (agent2_goal'=-1);
+endmodule
+
+
+module agent3
+	agent3_goal: [0..goal_number];
+	agent3_extra_cleaning: bool;
+
+	[] agent3_goal=0 & (agent3_skill_navigation & agent3_skill_comms & agent3_skill_manipulation) & agent3_battery>=0.2 & agent3_previousfailurerate<=0.01 -> (agent3_goal'=1);
+	[] agent3_goal=0 & (agent3_skill_navigation & agent3_skill_cleaning) & agent3_battery>=0.5 -> (agent3_goal'=2);
+
+	[] agent3_goal=1 & (agent3_skill_comms) -> (agent3_goal'=3);
+
+	[] agent3_goal=2 & (agent3_skill_navigation & agent3_skill_cleaning) & agent3_battery>0.5 -> (agent3_goal'=6);
+	[] agent3_goal=2 & (agent3_skill_navigation & agent3_skill_extracleaning) & agent3_battery>0.8 -> (agent3_goal'=7);
+	
+	[] agent3_goal=3 -> (agent3_goal'=8);
+	
+	[] agent3_goal=4 -> (agent3_goal'=10);
+
+	[] agent3_goal=5 -> (agent3_goal'=12);
+
+	[] agent3_goal=6 -> (agent3_goal'=14);
+
+	[] agent3_goal=7 -> (agent3_goal'=14) & (agent3_extra_cleaning'=true);
+
+	[] agent3_goal=8 -> (agent3_goal'=9);
+
+	[] agent3_goal=9 -> (agent3_goal'=4);
+
+	[] agent3_goal=10 -> (agent3_goal'=11);
+
+	[] agent3_goal=11 -> (agent3_goal'=5);
+
+	[] agent3_goal=12 -> (agent3_goal'=13);
+
+	[] agent3_goal=13-> (agent3_goal'=-1);
+
+	[] agent3_goal=14 -> (agent3_goal'=15);
+
+	[] agent3_goal=15 & agent3_extra_cleaning=false -> true;
+	[] agent3_goal=15 & agent3_extra_cleaning=true -> (agent3_goal'=16);
+
+	[] agent3_goal=16 -> (agent3_goal'=-1);
+endmodule
+
+
+module agent4
+	agent4_goal: [0..goal_number];
+	agent4_extra_cleaning: bool;
+
+	[] agent4_goal=0 & (agent4_skill_navigation & agent4_skill_comms & agent4_skill_manipulation) & agent4_battery>=0.2 & agent4_previousfailurerate<=0.01 -> (agent4_goal'=1);
+	[] agent4_goal=0 & (agent4_skill_navigation & agent4_skill_cleaning) & agent4_battery>=0.5 -> (agent4_goal'=2);
+
+	[] agent4_goal=1 & (agent4_skill_comms) -> (agent4_goal'=3);
+
+	[] agent4_goal=2 & (agent4_skill_navigation & agent4_skill_cleaning) & agent4_battery>0.5 -> (agent4_goal'=6);
+	[] agent4_goal=2 & (agent4_skill_navigation & agent4_skill_extracleaning) & agent4_battery>0.8 -> (agent4_goal'=7);
+	
+	[] agent4_goal=3 -> (agent4_goal'=8);
+	
+	[] agent4_goal=4 -> (agent4_goal'=10);
+
+	[] agent4_goal=5 -> (agent4_goal'=12);
+
+	[] agent4_goal=6 -> (agent4_goal'=14);
+
+	[] agent4_goal=7 -> (agent4_goal'=14) & (agent4_extra_cleaning'=true);
+
+	[] agent4_goal=8 -> (agent4_goal'=9);
+
+	[] agent4_goal=9 -> (agent4_goal'=4);
+
+	[] agent4_goal=10 -> (agent4_goal'=11);
+
+	[] agent4_goal=11 -> (agent4_goal'=5);
+
+	[] agent4_goal=12 -> (agent4_goal'=13);
+
+	[] agent4_goal=13-> (agent4_goal'=-1);
+
+	[] agent4_goal=14 -> (agent4_goal'=15);
+
+	[] agent4_goal=15 & agent4_extra_cleaning=false -> true;
+	[] agent4_goal=15 & agent4_extra_cleaning=true -> (agent4_goal'=16);
+
+	[] agent4_goal=16 -> (agent4_goal'=-1);
+endmodule
+
+rewards "agent1"
+		 agent1_goal=1: agent1_battery*10 - agent1_previousfailurerate*100;
+		 agent1_goal=2: agent1_battery*10;
+		 agent1_goal=3: agent1_battery*10;
+		 agent1_goal=4: agent1_battery*10;
+		 agent1_goal=5: agent1_battery*10;
+		 agent1_goal=6: agent1_battery*10;
+		 agent1_goal=7: agent1_battery*10;
+		 agent1_goal=8: agent1_battery*10;
+		 agent1_goal=9: agent1_battery*10;
+		 agent1_goal=10: agent1_battery*10;
+		 agent1_goal=11: agent1_battery*10;
+		 agent1_goal=12: agent1_battery*10;
+		 agent1_goal=13: agent1_battery*10;
+		 agent1_goal=14: agent1_battery*10;
+		 agent1_goal=15: agent1_battery*10;
+		 agent1_goal=16: agent1_battery*10;
+endrewards
+
+rewards "agent2"
+		 agent2_goal=1: agent2_battery*10 - agent2_previousfailurerate*100;
+		 agent2_goal=2: agent2_battery*10;
+		 agent2_goal=3: agent2_battery*10;
+		 agent2_goal=4: agent2_battery*10;
+		 agent2_goal=5: agent2_battery*10;
+		 agent2_goal=6: agent2_battery*10;
+		 agent2_goal=7: agent2_battery*10;
+		 agent2_goal=8: agent2_battery*10;
+		 agent2_goal=9: agent2_battery*10;
+		 agent2_goal=10: agent2_battery*10;
+		 agent2_goal=11: agent2_battery*10;
+		 agent2_goal=12: agent2_battery*10;
+		 agent2_goal=13: agent2_battery*10;
+		 agent2_goal=14: agent2_battery*10;
+		 agent2_goal=15: agent2_battery*10;
+		 agent2_goal=16: agent2_battery*10;
+endrewards
+
+rewards "agent3"
+		 agent3_goal=1: agent3_battery*10 - agent3_previousfailurerate*100;
+		 agent3_goal=2: agent3_battery*10;
+		 agent3_goal=3: agent3_battery*10;
+		 agent3_goal=4: agent3_battery*10;
+		 agent3_goal=5: agent3_battery*10;
+		 agent3_goal=6: agent3_battery*10;
+		 agent3_goal=7: agent3_battery*10;
+		 agent3_goal=8: agent3_battery*10;
+		 agent3_goal=9: agent3_battery*10;
+		 agent3_goal=10: agent3_battery*10;
+		 agent3_goal=11: agent3_battery*10;
+		 agent3_goal=12: agent3_battery*10;
+		 agent3_goal=13: agent3_battery*10;
+		 agent3_goal=14: agent3_battery*10;
+		 agent3_goal=15: agent3_battery*10;
+		 agent3_goal=16: agent3_battery*10;
+endrewards
+
+rewards "agent4"
+		agent4_goal=1: agent4_battery*10 - agent4_previousfailurerate*100;
+		agent4_goal=2: agent4_battery*10;
+		agent4_goal=3: agent4_battery*10;
+		agent4_goal=4: agent4_battery*10;
+		agent4_goal=5: agent4_battery*10;
+		agent4_goal=6: agent4_battery*10;
+		agent4_goal=7: agent4_battery*10;
+		agent4_goal=8: agent4_battery*10;
+		agent4_goal=9: agent4_battery*10;
+		agent4_goal=10: agent4_battery*10;
+		agent4_goal=11: agent4_battery*10;
+		agent4_goal=12: agent4_battery*10;
+		agent4_goal=13: agent4_battery*10;
+		agent4_goal=14: agent4_battery*10;
+		agent4_goal=15: agent4_battery*10;
+		agent4_goal=16: agent4_battery*10;
+endrewards
